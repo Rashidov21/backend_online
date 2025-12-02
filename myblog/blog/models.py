@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=250,blank=False)
+    about_text = models.TextField(blank=True)
     
     class Meta:
         verbose_name = "Category"
@@ -22,6 +23,8 @@ class Post(models.Model):
     likes = models.IntegerField(default=0)
     dislikes = models.IntegerField(default=0)
     published = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
         return self.title
@@ -30,6 +33,15 @@ class Comment(models.Model):
     name = models.CharField(max_length=250,blank=False)
     comment = models.TextField()
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
+    
+    def __str__(self):
+        return self.name
+
+
+class Contact(models.Model):
+    name = models.CharField(max_length=250)
+    email = models.EmailField(max_length=100)
+    message = models.TextField()
     
     def __str__(self):
         return self.name
